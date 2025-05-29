@@ -39,7 +39,7 @@ def search():
     """Launch search window if not already active"""
     if config.config(key='search_active',mode='r',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json'))== False:
         # Launch search.exe using PowerShell to avoid console window
-        os.popen(f'%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe Invoke-Item "{os.path.join(os.path.dirname(__file__),"search.exe")}"')
+        os.popen(f'%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe Invoke-Item "{os.path.join(os.path.dirname(__file__),"search.pyw")}"')
 
 def autostart():
     """Toggle autostart status in registry and config"""
@@ -56,7 +56,7 @@ if autorun.exists('winlens')!= config.config(key='autostart',mode='r',path=os.pa
 
 def gui():
     """Launch settings GUI"""
-    os.popen(f'%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe Invoke-Item "{os.path.join(os.path.dirname(__file__),"gui.exe")}"')
+    os.popen(f'%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe Invoke-Item "{os.path.join(os.path.dirname(__file__),"gui.pyw")}"')
 
 # Ensure only one instance is running
 try:
