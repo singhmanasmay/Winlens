@@ -25,7 +25,7 @@ pip install -r requirements.txt
 
 ## Requirements
 
-- Windows OS
+- Windows 10 1507 and above
 - Python 3.x (if running from source)
 - Required Python packages (if running from source):
   - customtkinter (installed automatically with pip)
