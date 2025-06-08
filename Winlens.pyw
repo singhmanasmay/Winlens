@@ -32,7 +32,7 @@ def start_search():
 def search():
     """Launch search window if not already active"""
     if config.read(key='search_active')== False:
-        # Launch search.exe using PowerShell to avoid console window
+        # Launch search.pyw using PowerShell to avoid console window
         os.popen(f'%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe Invoke-Item "{os.path.join(os.path.dirname(__file__),"search.pyw")}"')
 
 def autostart():
