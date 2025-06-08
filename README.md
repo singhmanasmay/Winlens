@@ -27,15 +27,7 @@ pip install -r requirements.txt
 
 - Windows 10 1507 and above
 - Python 3.x (if running from source)
-- Required Python packages (if running from source):
-  - customtkinter (installed automatically with pip)
-  - keyboard (installed automatically with pip)
-  - pillow (installed automatically with pip)
-  - pystray (installed automatically with pip)
-  - pywebview (installed automatically with pip)
-  - screeninfo (installed automatically with pip)
-  - tendo (installed automatically with pip)
-  - winaccent (installed automatically with pip)
+- Python packages in [requirements.txt](requirements.txt) (if running from source)
 
 ## Usage
 
