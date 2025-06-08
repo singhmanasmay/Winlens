@@ -4,28 +4,45 @@ Handles reading and writing to the config.json file that stores application sett
 """
 import json
 import os
+import shutil
 
-def config(**kwargs):
+backup = ''
+path = ''
+
+def create(backup,path):
     """
-    Read or write configuration values from/to config.json
+    Create a new config.json file from the backup if it doesn't exist.
     
     Args:
-        path (str): Path to config.json file
-        mode (str): 'r' for read, 'w' for write
-        key (str): Configuration key to access
-        value (any): Value to write (only for write mode)
-        
-    Returns:
-        any: Configuration value when reading
+        backup (str): Path to the backup config.json file
+        path (str): Path to the new config.json file
     """
-    file= os.path.join(os.path.dirname(__file__),kwargs['path'])
+    shutil.copy2(backup, path)
+        
 
-    if kwargs['mode']=='r':
-        with open(file,'r') as config:
-            return json.loads(config.read())[kwargs['key']]   
-    elif kwargs['mode']=='w':
-        with open(file,'r') as config:
+def read(key):
+    """
+    Read a value from the config.json file.
+    """
+    global read
+    try:
+        with open(path,'r') as config:
+            return json.loads(config.read())[key]
+    except:
+        create(backup, path)
+        return read(key)
+    
+def write(key, value):
+    """
+    Write a value to the config.json file.
+    """
+    global write
+    try:
+        with open(path,'r') as config:
             dict= json.loads(config.read())
-            dict[kwargs['key']]= kwargs['value']
-        with open(file,'w') as config:
+            dict[key]= value
+        with open(path,'w') as config:
             config.write(json.dumps(dict, indent=4))
+    except:
+        create(backup, path)
+        write(key, value)

@@ -13,18 +13,12 @@ from PIL import Image
 import os
 from tendo import singleton
 import sys
-import shutil
 
 import autorun
 import config
 
-# Create application data directory if it doesn't exist
-if os.path.exists(os.path.join(os.getenv('APPDATA'),'Winlens'))== False:
-    os.makedirs(os.path.join(os.getenv('APPDATA'),'Winlens'))
-
-# Copy default config if it doesn't exist
-if os.path.exists(os.path.join(os.getenv('APPDATA'),'Winlens\\config.json'))== False:
-    shutil.copyfile(os.path.join(os.path.dirname(__file__),'config.json'), os.path.join(os.getenv('APPDATA'),'Winlens\\config.json'))
+config.backup = os.path.join(os.path.dirname(__file__),'config.json')
+config.path = os.path.join(os.getenv('APPDATA'),'Winlens\\config.json')
 
 def quit():
     """Force quit the application"""
@@ -37,7 +31,7 @@ def start_search():
 
 def search():
     """Launch search window if not already active"""
-    if config.config(key='search_active',mode='r',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json'))== False:
+    if config.read(key='search_active')== False:
         # Launch search.exe using PowerShell to avoid console window
         os.popen(f'%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe Invoke-Item "{os.path.join(os.path.dirname(__file__),"search.pyw")}"')
 
@@ -45,13 +39,13 @@ def autostart():
     """Toggle autostart status in registry and config"""
     if autorun.exists('winlens')== True:
         autorun.remove('winlens')
-        config.config(key='autostart',value=False,mode='w',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json'))
+        config.write(key='autostart',value=False)
     else:
         autorun.add('winlens',os.path.abspath(sys.argv[0]))
-        config.config(key='autostart',value=True,mode='w',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json'))
+        config.write(key='autostart',value=True)
 
 # Sync autostart status between registry and config
-if autorun.exists('winlens')!= config.config(key='autostart',mode='r',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json')):
+if autorun.exists('winlens')!= config.read(key='autostart'):
     autostart()
 
 def gui():
@@ -65,19 +59,19 @@ except:
     quit()
 
 # Reset search active flag on startup
-config.config(key='search_active',value=False,mode='w',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json'))
+config.write(key='search_active',value=False)
 
 # Load tray icon image
 image = Image.open(os.path.join(os.path.dirname(__file__),'icon.png'))
 
 # Register global hotkey from config
-keyboard.add_hotkey(config.config(key='shortcut',mode='r',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json')),start_search)
+keyboard.add_hotkey(config.read(key='shortcut'),start_search)
 
 # Create and run system tray icon with menu
 icon= pystray.Icon('winlens',icon=image,menu=pystray.Menu(
     pystray.MenuItem('',start_search,default=True,visible=False),  # Hidden default action
     pystray.MenuItem('Hotkey',pystray.Menu(
-        pystray.MenuItem(config.config(key='shortcut',mode='r',path=os.path.join(os.getenv('APPDATA'),'Winlens\\config.json')),quit,enabled=False),
+        pystray.MenuItem(config.read(key='shortcut'),quit,enabled=False),
         pystray.MenuItem('Modify',gui)
     )),
     pystray.MenuItem('Autostart',autostart,checked=lambda item: autorun.exists('winlens')),
