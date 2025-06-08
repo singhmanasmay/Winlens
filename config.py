@@ -17,6 +17,7 @@ def create(backup,path):
         backup (str): Path to the backup config.json file
         path (str): Path to the new config.json file
     """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     shutil.copy2(backup, path)
         
 
