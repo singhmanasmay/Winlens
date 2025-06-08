@@ -52,6 +52,10 @@ def gui():
     """Launch settings GUI"""
     os.popen(f'%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe Invoke-Item "{os.path.join(os.path.dirname(__file__),"gui.pyw")}"')
 
+def github():
+    """Open the GitHub repository in the default web browser"""
+    os.popen('start https://github.com/singhmanasmay/Winlens')
+
 # Ensure only one instance is running
 try:
     me = singleton.SingleInstance()
@@ -75,5 +79,6 @@ icon= pystray.Icon('winlens',icon=image,menu=pystray.Menu(
         pystray.MenuItem('Modify',gui)
     )),
     pystray.MenuItem('Autostart',autostart,checked=lambda item: autorun.exists('winlens')),
+    pystray.MenuItem('Github',github),
     pystray.MenuItem('Quit',quit)
     )).run()
