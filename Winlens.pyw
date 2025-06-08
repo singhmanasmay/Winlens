@@ -66,7 +66,7 @@ except:
 config.write(key='search_active',value=False)
 
 # Load tray icon image
-image = Image.open(os.path.join(os.path.dirname(__file__),'icon.png'))
+image = Image.open(os.path.join(os.path.dirname(__file__),'icon.ico'))
 
 # Register global hotkey from config
 keyboard.add_hotkey(config.read(key='shortcut'),start_search)
