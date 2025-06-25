@@ -11,7 +11,7 @@ A lightweight Windows utility that brings Google Lens to your desktop with a sin
 
 ## Installation
 
-1. Download the latest release from the releases page
+1. Download the latest release from the [releases page](https://github.com/singhmanasmay/Winlens/releases)
 3. Run the downloaded file `Winlens.exe`
 
 Or run from source:
@@ -49,6 +49,4 @@ Settings are stored in `%APPDATA%\Winlens\config.json`:
 - `search_active`: Internal state tracking (do not touch)
 
 
-## License
-
-[MIT License](LICENSE)
+## [License](LICENSE)
